@@ -15,7 +15,7 @@ class BookShelf extends Component{
                 <Book backgroundImage={book.backgroundImage}
                       title={book.title}
                       authors={book.authors}
-                      />
+                />
               </li>
             ))}
           </ol>

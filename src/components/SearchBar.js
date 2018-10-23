@@ -8,6 +8,7 @@ class SearchBar extends Component{
   }
 
   handleSearchTextChange(e) {
+    console.log(e.target.value);
     this.props.onSearchTextChange(e.target.value);
   }
 

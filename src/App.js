@@ -21,6 +21,7 @@ class BooksApp extends React.Component {
       searchText: ''
     }
     this.handleSearchTextChange = this.handleSearchTextChange.bind(this);
+    this.handleOnSelectChange = this.handleOnSelectChange.bind(this);
   }
 
   toggleSearch = () => {
@@ -32,6 +33,10 @@ class BooksApp extends React.Component {
     this.setState({
       searchText: searchText
     });
+  }
+
+  handleOnSelectChange(selectValue) {
+    console.log(selectValue);
   }
 
   books = [
