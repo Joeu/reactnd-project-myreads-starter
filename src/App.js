@@ -7,19 +7,31 @@ import SearchResults from './components/SearchResults';
 import AddBook from './components/AddBook';
 
 class BooksApp extends React.Component {
-  state = {
-    /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
-    showSearchPage: false
-    
+  constructor(props){
+    super(props);
+    this.state = {
+      /**
+       * TODO: Instead of using this state variable to keep track of which page
+       * we're on, use the URL in the browser's address bar. This will ensure that
+       * users can use the browser's back and forward buttons to navigate between
+       * pages, as well as provide a good URL they can bookmark and share.
+       */
+      showSearchPage: false,
+      bookList: [],
+      searchText: ''
+    }
+    this.handleSearchTextChange = this.handleSearchTextChange.bind(this);
   }
 
   toggleSearch = () => {
     this.setState(prevState => ({showSearchPage: !prevState.showSearchPage}));
+  }
+
+  handleSearchTextChange(searchText) {
+    console.log(searchText);
+    this.setState({
+      searchText: searchText
+    });
   }
 
   books = [
@@ -62,7 +74,10 @@ class BooksApp extends React.Component {
       <div className="app">
         {this.state.showSearchPage ? (
           <div className="search-books">
-            <SearchBar toggleSearch={this.toggleSearch} />
+            <SearchBar 
+              toggleSearch={this.toggleSearch}
+              onSearchTextChange={this.handleSearchTextChange}
+            />
             <SearchResults />
           </div>
         ) : (
