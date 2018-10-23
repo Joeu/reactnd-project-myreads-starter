@@ -4,6 +4,7 @@ import './App.css'
 import BookShelf from './components/BookShelf';
 import SearchBar from './components/SearchBar';
 import SearchResults from './components/SearchResults';
+import AddBook from './components/AddBook';
 
 class BooksApp extends React.Component {
   state = {
@@ -17,8 +18,8 @@ class BooksApp extends React.Component {
     
   }
 
-  hideSearch = () => {
-    this.setState({showSearchPage: false});
+  toggleSearch = () => {
+    this.setState(prevState => ({showSearchPage: !prevState.showSearchPage}));
   }
 
   books = [
@@ -61,7 +62,7 @@ class BooksApp extends React.Component {
       <div className="app">
         {this.state.showSearchPage ? (
           <div className="search-books">
-            <SearchBar hideSearch={this.hideSearch} />
+            <SearchBar toggleSearch={this.toggleSearch} />
             <SearchResults />
           </div>
         ) : (
@@ -85,9 +86,7 @@ class BooksApp extends React.Component {
                 />
               </div>
             </div>
-            <div className="open-search">
-              <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
-            </div>
+            <AddBook toggleSearch={this.toggleSearch}/>
           </div>
         )}
       </div>
