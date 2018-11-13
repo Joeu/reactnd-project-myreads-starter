@@ -4,12 +4,16 @@ class Book extends Component{
 
   constructor(props){
     super(props);
+    this.state = {
+      title: props.title,
+      shelf: props.shelf
+    }
     this.handleOnSelectChange = this.handleOnSelectChange.bind(this);
   }
 
   handleOnSelectChange(e) {
-    console.log(e.target.value);
-    // this.props.onSelectChange(e.target.value);
+    this.setState({shelf: e.target.value});
+    this.props.onShelfSelect(e.target.value, this.state.title);
   }
 
   render() {

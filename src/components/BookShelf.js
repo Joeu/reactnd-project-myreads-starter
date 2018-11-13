@@ -3,6 +3,11 @@ import Book from './Book';
 
 class BookShelf extends Component{
 
+  handleShelfChange = (newShelf, bookTitle) => {
+    if (this.props.onShelfChange)
+      this.props.onShelfChange(newShelf, bookTitle)
+  }
+
   render () {
     return (
 
@@ -15,6 +20,8 @@ class BookShelf extends Component{
                 <Book backgroundImage={book.backgroundImage}
                       title={book.title}
                       authors={book.authors}
+                      shelf={book.shelf}
+                      onShelfSelect={this.handleShelfChange}
                 />
               </li>
             ))}
