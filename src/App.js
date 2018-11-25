@@ -39,9 +39,18 @@ class BooksApp extends React.Component {
   }
 
   handleShelfChange(shelf, bookTitle){
-    let _books = this.state.books.filter(b => b.shelf = shelf)
+    let _booksRet = [];
+    this.state.books.forEach(book => {
+      if (book.title === bookTitle){
+        book.shelf = shelf;
+        _booksRet.push(book);
+      } else {
+        _booksRet.push(book);
+      }
+    });
+    
     this.setState({
-      books: _books
+      books: _booksRet
     });
   }
 
