@@ -1,15 +1,29 @@
 import React, { Component } from 'react';
 import Book from './Book';
+import * as BooksAPI from '../BooksAPI'
 
 class SearchComponent extends Component{
 
   constructor(props){
     super(props);
+    this.state = {
+      bookSearchResult: []
+    }
     this.handleSearchTextChange = this.handleSearchTextChange.bind(this);
   }
 
   handleSearchTextChange(e) {
-    this.props.onSearchTextChange(e.target.value);
+    BooksAPI.search(e.target.value)
+      .then((searchResult) => {
+        this.setState(() => ({
+          bookSearchResult: searchResult
+        }));
+      })
+  }
+
+  handleShelfChange = (newShelf, bookTitle) => {
+    if (this.props.onShelfChange)
+      this.props.onShelfChange(newShelf, bookTitle)
   }
 
   render () {
@@ -21,7 +35,6 @@ class SearchComponent extends Component{
             <input
               type="text"
               placeholder="Search by title or author"
-              value={this.props.searchText}
               onChange={this.handleSearchTextChange}
             />
 
@@ -29,17 +42,14 @@ class SearchComponent extends Component{
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            {this.props.bookSearchResult.forEach(book =>
+            {this.state.bookSearchResult.map((book) => (
               <li key={book.id}>
-                <Book backgroundImage={book.imageLinks.thumbnail}
-                  title={book.title}
-                  authors={book.authors}
-                  shelf={book.shelf}
+                <Book 
+                  book={book}
                   onShelfSelect={this.handleShelfChange}
-                  averageRating={book.averageRating ? book.averageRating : "-"}
                 />
               </li>
-            )}
+            ))}
           </ol>
         </div>
       </div>

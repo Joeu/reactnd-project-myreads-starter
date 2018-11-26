@@ -5,22 +5,21 @@ class Book extends Component{
   constructor(props){
     super(props);
     this.state = {
-      title: props.title,
-      shelf: props.shelf
+      book: props.book
     }
     this.handleOnSelectChange = this.handleOnSelectChange.bind(this);
   }
 
   handleOnSelectChange(e) {
     this.setState({shelf: e.target.value});
-    this.props.onShelfSelect(e.target.value, this.state.title);
+    this.props.onShelfSelect(e.target.value, this.state.book);
   }
 
   render() {
     return (
       <div className="book">
         <div className="book-top">
-          <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${this.props.backgroundImage})` }}></div>
+          <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${this.props.book.imageLinks.thumbnail})` }}></div>
           <div className="book-shelf-changer">
             <select onChange={this.handleOnSelectChange}>
               <option value="move" defaultValue>Move to...</option>
@@ -31,9 +30,9 @@ class Book extends Component{
             </select>
           </div>
         </div>
-        <div className="book-title">{this.props.title}</div>
-        <div className="book-authors">{this.props.authors}</div>
-        <div className="book-authors">{this.props.averageRating}</div>
+        <div className="book-title">{this.props.book.title}</div>
+        <div className="book-authors">{this.props.book.authors}</div>
+        <div className="book-authors">{this.props.book.averageRating}</div>
       </div>
     );
   }

@@ -17,12 +17,9 @@ class BookShelf extends Component{
           <ol className="books-grid">
             {this.props.filteredBooks.map((book) => (
               <li key={book.id}>
-                <Book backgroundImage={book.imageLinks.thumbnail}
-                      title={book.title}
-                      authors={book.authors}
-                      shelf={book.shelf}
-                      onShelfSelect={this.handleShelfChange}
-                      averageRating={ book.averageRating ? book.averageRating : "-" }
+                <Book 
+                  book={book}
+                  onShelfSelect={this.handleShelfChange}
                 />
               </li>
             ))}

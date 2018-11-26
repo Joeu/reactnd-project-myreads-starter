@@ -10,11 +10,8 @@ class BooksApp extends React.Component {
     super(props);
     this.state = {
       showSearchPage: false,
-      searchText: '',
       books: [],
-      bookSearchResult: []
     }
-    this.handleSearchTextChange = this.handleSearchTextChange.bind(this);
     this.handleShelfChange = this.handleShelfChange.bind(this);
   }
 
@@ -32,10 +29,6 @@ class BooksApp extends React.Component {
   }
 
   handleSearchTextChange(searchText) {
-    this.setState({
-      searchText: searchText
-    });
-
     BooksAPI.search(searchText)
       .then((searchResult) => {
         this.setState(() => ({
@@ -44,10 +37,18 @@ class BooksApp extends React.Component {
       })
   }
 
-  handleShelfChange(shelf, bookTitle){
+  handleShelfChange(shelf, book){
+    BooksAPI.update(book, shelf)
+      .then(() => {
+        this.changeShelf(shelf, book.id);
+      })
+  }
+
+  changeShelf(shelf, bookId){
     let _booksRet = [];
+
     this.state.books.forEach(book => {
-      if (book.title === bookTitle){
+      if (book.id === bookId){
         book.shelf = shelf;
         _booksRet.push(book);
       } else {
@@ -68,8 +69,7 @@ class BooksApp extends React.Component {
           <div className="search-books">
             <SearchComponent 
               toggleSearch={this.toggleSearch}
-              onSearchTextChange={this.handleSearchTextChange}
-              bookSearchResult={this.state.bookSearchResult}
+              onShelfChange = {this.handleShelfChange}
             />
           </div>
         ) : (
