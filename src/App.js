@@ -1,8 +1,7 @@
 import React from 'react'
 import './App.css'
 import BookShelf from './components/BookShelf';
-import SearchBar from './components/SearchBar';
-import SearchResults from './components/SearchResults';
+import SearchComponent from './components/SearchComponent';
 import AddBook from './components/AddBook';
 import * as BooksAPI from './BooksAPI'
 
@@ -67,11 +66,9 @@ class BooksApp extends React.Component {
       <div className="app">
         {this.state.showSearchPage ? (
           <div className="search-books">
-            <SearchBar 
+            <SearchComponent 
               toggleSearch={this.toggleSearch}
               onSearchTextChange={this.handleSearchTextChange}
-            />
-            <SearchResults 
               bookSearchResult={this.state.bookSearchResult}
             />
           </div>
