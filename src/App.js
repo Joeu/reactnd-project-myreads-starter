@@ -1,31 +1,31 @@
 import React from 'react'
-// import * as BooksAPI from './BooksAPI'
 import './App.css'
 import BookShelf from './components/BookShelf';
 import SearchBar from './components/SearchBar';
 import SearchResults from './components/SearchResults';
 import AddBook from './components/AddBook';
+import * as BooksAPI from './BooksAPI'
 
 class BooksApp extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      /**
-       * TODO: Instead of using this state variable to keep track of which page
-       * we're on, use the URL in the browser's address bar. This will ensure that
-       * users can use the browser's back and forward buttons to navigate between
-       * pages, as well as provide a good URL they can bookmark and share.
-       */
       showSearchPage: false,
       searchText: '',
-      books: []
+      books: [],
+      bookSearchResult: []
     }
     this.handleSearchTextChange = this.handleSearchTextChange.bind(this);
     this.handleShelfChange = this.handleShelfChange.bind(this);
   }
 
   componentDidMount() {
-    this.setState({books: this.props.books});
+    BooksAPI.getAll()
+      .then((books) => {
+        this.setState(() => ({
+          books
+        }));
+      })
   }
 
   toggleSearch = () => {
@@ -36,6 +36,13 @@ class BooksApp extends React.Component {
     this.setState({
       searchText: searchText
     });
+
+    BooksAPI.search(searchText)
+      .then((searchResult) => {
+        this.setState(() => ({
+          bookSearchResult: searchResult
+        }));
+      })
   }
 
   handleShelfChange(shelf, bookTitle){
@@ -64,7 +71,9 @@ class BooksApp extends React.Component {
               toggleSearch={this.toggleSearch}
               onSearchTextChange={this.handleSearchTextChange}
             />
-            <SearchResults />
+            <SearchResults 
+              bookSearchResult={this.state.bookSearchResult}
+            />
           </div>
         ) : (
           <div className="list-books">

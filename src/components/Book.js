@@ -20,7 +20,7 @@ class Book extends Component{
     return (
       <div className="book">
         <div className="book-top">
-          <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: this.props.backgroundImage }}></div>
+          <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${this.props.backgroundImage})` }}></div>
           <div className="book-shelf-changer">
             <select onChange={this.handleOnSelectChange}>
               <option value="move" defaultValue>Move to...</option>
@@ -33,6 +33,7 @@ class Book extends Component{
         </div>
         <div className="book-title">{this.props.title}</div>
         <div className="book-authors">{this.props.authors}</div>
+        <div className="book-authors">{this.props.averageRating}</div>
       </div>
     );
   }

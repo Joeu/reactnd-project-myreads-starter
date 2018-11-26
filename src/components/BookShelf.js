@@ -16,12 +16,13 @@ class BookShelf extends Component{
         <div className="bookshelf-books">
           <ol className="books-grid">
             {this.props.filteredBooks.map((book) => (
-              <li key={book.title}>
-                <Book backgroundImage={book.backgroundImage}
+              <li key={book.id}>
+                <Book backgroundImage={book.imageLinks.thumbnail}
                       title={book.title}
                       authors={book.authors}
                       shelf={book.shelf}
                       onShelfSelect={this.handleShelfChange}
+                      averageRating={ book.averageRating ? book.averageRating : "-" }
                 />
               </li>
             ))}
