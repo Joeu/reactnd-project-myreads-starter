@@ -13,6 +13,7 @@ class BooksApp extends React.Component {
       books: [],
     }
     this.handleShelfChange = this.handleShelfChange.bind(this);
+    this.addToShelf = this.addToShelf.bind(this);
   }
 
   componentDidMount() {
@@ -35,9 +36,17 @@ class BooksApp extends React.Component {
       })
   }
 
+  addToShelf(shelf, book){
+    BooksAPI.update(book, shelf)
+      .then(() => {
+        this.setState({
+          books: [...this.state.books, book]
+        });
+      })
+  }
+
   changeShelf(shelf, bookId){
     let _booksRet = [];
-
     this.state.books.forEach(book => {
       if (book.id === bookId){
         book.shelf = shelf;
@@ -46,7 +55,6 @@ class BooksApp extends React.Component {
         _booksRet.push(book);
       }
     });
-    console.log("STATE SHOULD CHANGE");
     this.setState({
       books: _booksRet
     });
@@ -61,7 +69,7 @@ class BooksApp extends React.Component {
             <SearchComponent 
               toggleSearch={this.toggleSearch}
               booksOnShelf={this.state.books}
-              onShelfChange = {this.handleShelfChange}
+              onShelfChange = {this.addToShelf}
             />
           </div>
         ) : (

@@ -13,18 +13,24 @@ class SearchComponent extends Component{
   }
 
   handleSearchTextChange(e) {
-    BooksAPI.search(e.target.value)
-      .then((searchResult) => {
-        if (searchResult) {
-          this.setState(() => ({
-            bookSearchResult: searchResult
-          }));
-        } else {
-          this.setState(() => ({
-            bookSearchResult: []
-          }));
-        }
-      })
+    if (e.target.value !== ''){
+      BooksAPI.search(e.target.value)
+        .then((searchResult) => {
+          if (searchResult.error) {
+            this.setState(() => ({
+              bookSearchResult: searchResult.items
+            }));
+          } else {
+            this.setState(() => ({
+              bookSearchResult: searchResult
+            }));
+          }
+        })
+    } else {
+      this.setState(() => ({
+        bookSearchResult: []
+      }));
+    }
   }
 
   handleShelfChange = (newShelf, bookId) => {
