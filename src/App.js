@@ -25,16 +25,7 @@ class BooksApp extends React.Component {
   }
 
   toggleSearch = () => {
-    this.setState(prevState => ({showSearchPage: !prevState.showSearchPage}));
-  }
-
-  handleSearchTextChange(searchText) {
-    BooksAPI.search(searchText)
-      .then((searchResult) => {
-        this.setState(() => ({
-          bookSearchResult: searchResult
-        }));
-      })
+    this.setState({showSearchPage: !this.state.showSearchPage});
   }
 
   handleShelfChange(shelf, book){
@@ -55,7 +46,7 @@ class BooksApp extends React.Component {
         _booksRet.push(book);
       }
     });
-    
+    console.log("STATE SHOULD CHANGE");
     this.setState({
       books: _booksRet
     });
@@ -69,6 +60,7 @@ class BooksApp extends React.Component {
           <div className="search-books">
             <SearchComponent 
               toggleSearch={this.toggleSearch}
+              booksOnShelf={this.state.books}
               onShelfChange = {this.handleShelfChange}
             />
           </div>

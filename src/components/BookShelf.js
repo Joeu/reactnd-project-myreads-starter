@@ -3,9 +3,9 @@ import Book from './Book';
 
 class BookShelf extends Component{
 
-  handleShelfChange = (newShelf, bookTitle) => {
+  handleShelfChange = (newShelf, bookId) => {
     if (this.props.onShelfChange)
-      this.props.onShelfChange(newShelf, bookTitle)
+      this.props.onShelfChange(newShelf, bookId)
   }
 
   render () {

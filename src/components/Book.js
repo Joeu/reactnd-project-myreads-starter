@@ -11,7 +11,9 @@ class Book extends Component{
   }
 
   handleOnSelectChange(e) {
-    this.setState({shelf: e.target.value});
+    let _bookCopy = this.state.book;
+    _bookCopy.shelf = e.target.value;
+    this.setState({book: _bookCopy});
     this.props.onShelfSelect(e.target.value, this.state.book);
   }
 
@@ -21,8 +23,8 @@ class Book extends Component{
         <div className="book-top">
           <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${this.props.book.imageLinks.thumbnail})` }}></div>
           <div className="book-shelf-changer">
-            <select onChange={this.handleOnSelectChange}>
-              <option value="move" defaultValue>Move to...</option>
+            <select value={this.props.book.shelf ? this.props.book.shelf : "none"} onChange={this.handleOnSelectChange}>
+              <option value="move" disabled defaultValue>Move to...</option>
               <option value="currentlyReading">Currently Reading</option>
               <option value="wantToRead">Want to Read</option>
               <option value="read">Read</option>
@@ -32,7 +34,7 @@ class Book extends Component{
         </div>
         <div className="book-title">{this.props.book.title}</div>
         <div className="book-authors">{this.props.book.authors}</div>
-        <div className="book-authors">{this.props.book.averageRating}</div>
+        <div className="book-authors">{this.props.book.averageRating ? this.props.book.averageRating : "-"}</div>
       </div>
     );
   }

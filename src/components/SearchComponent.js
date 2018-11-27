@@ -15,15 +15,21 @@ class SearchComponent extends Component{
   handleSearchTextChange(e) {
     BooksAPI.search(e.target.value)
       .then((searchResult) => {
-        this.setState(() => ({
-          bookSearchResult: searchResult
-        }));
+        if (searchResult) {
+          this.setState(() => ({
+            bookSearchResult: searchResult
+          }));
+        } else {
+          this.setState(() => ({
+            bookSearchResult: []
+          }));
+        }
       })
   }
 
-  handleShelfChange = (newShelf, bookTitle) => {
+  handleShelfChange = (newShelf, bookId) => {
     if (this.props.onShelfChange)
-      this.props.onShelfChange(newShelf, bookTitle)
+      this.props.onShelfChange(newShelf, bookId)
   }
 
   render () {
