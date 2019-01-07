@@ -39,24 +39,26 @@ class BooksApp extends React.Component {
   addToShelf(shelf, book){
     BooksAPI.update(book, shelf)
       .then(() => {
-        this.setState({
-          books: [...this.state.books, book]
-        });
+        if (!this.state.books.includes(book)){
+          this.setState({
+            books: [...this.state.books, book]
+          });
+        }
       })
   }
 
   changeShelf(shelf, bookId){
-    let _booksRet = [];
+    let _booksRet = new Set();
     this.state.books.forEach(book => {
       if (book.id === bookId){
         book.shelf = shelf;
-        _booksRet.push(book);
+        _booksRet.add(book);
       } else {
-        _booksRet.push(book);
+        _booksRet.add(book);
       }
     });
     this.setState({
-      books: _booksRet
+      books: [..._booksRet]
     });
   }
 
