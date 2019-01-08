@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Book from './Book';
 import * as BooksAPI from '../BooksAPI'
+import { Link } from 'react-router-dom'
 
 class SearchComponent extends Component{
 
@@ -13,6 +14,7 @@ class SearchComponent extends Component{
   }
 
   handleSearchTextChange(e) {
+    let _self = this;
     if (e.target.value !== ''){
       BooksAPI.search(e.target.value)
         .then((searchResult) => {
@@ -21,8 +23,18 @@ class SearchComponent extends Component{
               bookSearchResult: searchResult.items
             }));
           } else {
+            let _retArray = new Set();
+            _self.props.booksOnShelf.filter(bookShelf => {
+              searchResult.forEach(book => {
+                if (book.id === bookShelf.id){
+                  book.shelf = bookShelf.shelf;
+                }
+                _retArray.add(book);
+              });
+            });
+
             this.setState(() => ({
-              bookSearchResult: searchResult
+              bookSearchResult: [..._retArray]
             }));
           }
         })
@@ -42,7 +54,9 @@ class SearchComponent extends Component{
     return (
       <div>
         <div className="search-books-bar">
-          <a className="close-search" onClick={this.props.toggleSearch}>Close</a>
+          <Link to='/'>
+            <a className="close-search">Close</a>
+          </Link>
           <div className="search-books-input-wrapper">
             <input
               type="text"

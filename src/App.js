@@ -4,6 +4,7 @@ import BookShelf from './components/BookShelf';
 import SearchComponent from './components/SearchComponent';
 import AddBook from './components/AddBook';
 import * as BooksAPI from './BooksAPI'
+import { Route, Link } from 'react-router-dom'
 
 class BooksApp extends React.Component {
   constructor(props){
@@ -25,10 +26,6 @@ class BooksApp extends React.Component {
       })
   }
 
-  toggleSearch = () => {
-    this.setState({showSearchPage: !this.state.showSearchPage});
-  }
-
   handleShelfChange(shelf, book){
     BooksAPI.update(book, shelf)
       .then(() => {
@@ -48,17 +45,15 @@ class BooksApp extends React.Component {
   }
 
   changeShelf(shelf, bookId){
-    let _booksRet = [];
-    this.state.books.forEach(book => {
+    const books = this.state.books.map(book => {
       if (book.id === bookId){
         book.shelf = shelf;
-        _booksRet.push(book);
-      } else {
-        _booksRet.push(book);
       }
+      return book;
     });
+    
     this.setState({
-      books: _booksRet
+      books
     });
   }
 
@@ -66,15 +61,7 @@ class BooksApp extends React.Component {
     
     return (
       <div className="app">
-        {this.state.showSearchPage ? (
-          <div className="search-books">
-            <SearchComponent 
-              toggleSearch={this.toggleSearch}
-              booksOnShelf={this.state.books}
-              onShelfChange = {this.addToShelf}
-            />
-          </div>
-        ) : (
+        <Route exact path='/' render={() =>
           <div className="list-books">
             <div className="list-books-title">
               <h1>MyReads</h1>
@@ -98,9 +85,21 @@ class BooksApp extends React.Component {
                 />
               </div>
             </div>
-            <AddBook toggleSearch={this.toggleSearch}/>
+            <Link to='/search'>
+              <AddBook/>
+            </Link>
           </div>
-        )}
+        } />
+
+        <Route exact path='/search' render={() =>
+          <div className="search-books">
+            <SearchComponent 
+              booksOnShelf={this.state.books}
+              onShelfChange = {this.addToShelf}
+            />
+          </div>
+        } />
+
       </div>
     )
   }
